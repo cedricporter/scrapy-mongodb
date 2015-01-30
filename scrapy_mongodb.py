@@ -247,7 +247,7 @@ class MongoDBPipeline(BaseItemExporter):
 
         if self.config['unique_key'] is None:
             try:
-                self.collection.insert(item, continue_on_error=True)
+                self.collection[spider.name].insert(item, continue_on_error=True)
                 log.msg(
                     'Stored item(s) in MongoDB {0}/{1}'.format(
                         self.config['database'], self.config['collection']),
@@ -272,7 +272,7 @@ class MongoDBPipeline(BaseItemExporter):
             else:
                 key[self.config['unique_key']] = item[self.config['unique_key']]
 
-            self.collection.update(key, item, upsert=True)
+            self.collection[spider.name].update(key, item, upsert=True)
 
             log.msg(
                 'Stored item(s) in MongoDB {0}/{1}'.format(
